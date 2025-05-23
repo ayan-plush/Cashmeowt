@@ -11,6 +11,10 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true
     },
+    stripeId: {
+        type: String,
+        required: true
+    },
     balance: {
     type: Number,
     default: 0

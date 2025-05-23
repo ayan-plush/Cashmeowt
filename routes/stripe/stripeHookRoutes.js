@@ -6,6 +6,7 @@ const { authMiddleware, adminMiddleware } = require('../../middleware/authMiddle
 const router = require('express').Router()
 
 router.post('/webhooks', express.raw({ type: 'application/json' }), stripeController.handleStripeWebhook )
+router.post('/webhooks/withdrawl', express.raw({ type: 'application/json' }), stripeController.handleWithdrawlWebhook )
 
 
 module.exports = router

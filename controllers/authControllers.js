@@ -4,6 +4,7 @@ const { responseReturn } = require("../utils/responseReturn")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
 const userModel = require("../models/userModel")
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 
 
@@ -86,10 +87,32 @@ class authControllers {
             if (getUser) {
                 responseReturn(res, 409, { error: "Email Already Exists" });
             } else {
+
+
+                const account = await stripe.accounts.create({
+                    type: 'express', // change?
+                    email: email,
+                    business_type: 'individual',
+                    capabilities: {
+                        card_payments: { requested: true },
+                        transfers: { requested: true }
+                    }
+                });
+
+                const accountLink = await stripe.accountLinks.create({
+                    account: account.id,
+                    refresh_url: 'https://cashmeowt.com/reauth',
+                    return_url: 'https://cashmeowt.com/return',
+                    type: 'account_onboarding',
+                });
+
+
+
                 const user = await userModel.create({
                     name,
                     email,
                     password: await bcrypt.hash(password, 10),
+                    stripeId: account.id,
                     method: "manually"
                 });
 
@@ -103,7 +126,7 @@ class authControllers {
                     httpOnly: true
                 });
 
-                responseReturn(res, 201, { token, message: "Register Successful" });
+                responseReturn(res, 201, { token, message: "Register Successful", accountLink });
             }
         } catch (error) {
             console.log(error);

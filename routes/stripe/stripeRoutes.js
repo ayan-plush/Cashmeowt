@@ -5,6 +5,7 @@ const { authMiddleware, adminMiddleware } = require('../../middleware/authMiddle
 const router = require('express').Router()
 
 router.get('/stripe-check', authMiddleware, stripeController.wallet_topup )
+router.get('/stripe-withdraw', authMiddleware, stripeController.wallet_withdrawl )
 
 
 module.exports = router
