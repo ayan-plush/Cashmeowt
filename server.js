@@ -24,6 +24,7 @@ app.use(cookieParser())
 app.use(bodyParser.json()) //if we have an api that uses raw put it before this
 app.use('/api', require('./routes/stripe/stripeRoutes')) // without webhooks
 app.use('/api',require('./routes/wallet/walletStatusRoutes'))
+app.use('/api',require('./routes/admin/adminRoutes'))
 app.use('/api',require('./routes/transaction/transactionRoutes'))
 app.use('/api', require('./routes/authRoutes'))
 

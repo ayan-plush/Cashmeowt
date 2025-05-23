@@ -7,7 +7,11 @@ class transactionControllers {
     
     get_transaction = async (req,res) => {
 
+        const userId = req.id
         const {transactionId} = req.body
+
+        const user = await userModel.findById(userId)
+
 
         try {
             const transaction = await transactionModel.findById(transactionId)
@@ -55,8 +59,8 @@ class transactionControllers {
 
         try {
             const sender = await userModel.findById(senderId).session(session);
-            if (!sender) {
-                throw new Error("Sender not found");
+            if (!sender || sender.isdeleted || sender.disabled) {
+                throw new Error("sender can't be found");
             }
 
             const limit = sender.balance / 2;
@@ -65,8 +69,9 @@ class transactionControllers {
             }
 
             const recipient = await userModel.findById(recipientId).session(session);
+            
             if (!recipient || recipient.isdeleted || recipient.disabled) {
-                throw new Error("Recipient is not active or doesn't exist");
+                throw new Error("recipient user can't be found");
             }
 
             let flag = false;

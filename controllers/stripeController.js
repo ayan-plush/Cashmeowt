@@ -10,6 +10,11 @@ class stripeControllers {
             const { amount } = req.body;
             const userId = req.id; // From auth middleware
 
+            const user = await userModel.findById(userId)
+            if(!user || user.isdeleted || user.disabled){
+                return responseReturn(res, 400, { error: "user can't be found" });
+            }
+
             if (!amount || amount <= 0) {
                 return responseReturn(res, 400, { error: "Invalid amount" });
             }
@@ -47,7 +52,7 @@ class stripeControllers {
             const user = await userModel.findById(userId);
             const { amount } = req.body
 
-            if(!user||!user.stripeId){
+            if(!user||!user.stripeId||user.isdeleted||user.disabled){
                 return responseReturn(res,400,{error: "Stripe account for user not found"})
             }
 
