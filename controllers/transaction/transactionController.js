@@ -25,8 +25,8 @@ class transactionControllers {
     
     transfer_funds = async (req, res) => {
         const senderId = req.id;
-        const { recipientId, amountValue, spendType } = req.body;
-        const amount = Number(amountValue)
+        const { recipientId, amount, spendType } = req.body;
+        const amountNum = Number(amount)
 
         const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
 
@@ -60,7 +60,7 @@ class transactionControllers {
             }
 
             const limit = sender.balance / 2;
-            if (amount > limit) {
+            if (amountNum > limit) {
                 throw new Error("Transfer exceeds limit");
             }
 
@@ -70,15 +70,15 @@ class transactionControllers {
             }
 
             let flag = false;
-            if (amount >= recipient.balance / 2) {
+            if (amountNum >= recipient.balance / 2) {
                 flag = true;
             }
 
-            sender.balance -= amount;
-            recipient.balance += amount;
+            sender.balance -= amountNum;
+            recipient.balance += amountNum;
 
-            sender.transactionvolume += amount;
-            recipient.transactionvolume += amount;
+            sender.transactionvolume += amountNum;
+            recipient.transactionvolume += amountNum;
 
             const transaction = await transactionModel.create([{
                 userId: senderId,
@@ -86,7 +86,7 @@ class transactionControllers {
                 userName: sender.name,
                 toUserName: recipient.name,
                 spendType,
-                amount,
+                amount: amountNum,
                 flag
             }], { session });
 

@@ -57,10 +57,15 @@ class stripeControllers {
 
             try {
                 const transfer = await stripe.transfers.create({
-                    amount: amount,
+                    amount: Math.trunc(amount),
                     currency: 'usd',
                     destination: user.stripeId,
                     description: 'User withdrawal',
+                    metadata: {
+                    userId: userId,
+                    userEmail: user.email, // optional, useful for debugging
+                    }
+
                 })
 
                 return responseReturn(res,200, {message: "withdrawl initiated", transfer})
@@ -132,7 +137,8 @@ class stripeControllers {
             if (event.type === 'transfer.created') {
                 const session = event.data.object;
                 const userId = session.metadata.userId;
-                const amount = parseFloat(session.metadata.amount);
+                const amount = parseFloat(session.amount);
+
 
                 if (!userId || isNaN(amount)) {
                     return responseReturn(res,500,{error: "Invalid metadata"})
