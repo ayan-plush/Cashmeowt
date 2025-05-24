@@ -47,7 +47,7 @@ class stripeControllers {
             }
         };
 
-        wallet_withdrawl = async (req,res) => {
+        wallet_withdrawal = async (req,res) => {
             const userId = req.id
             const user = await userModel.findById(userId);
             const { amount } = req.body
@@ -73,7 +73,7 @@ class stripeControllers {
 
                 })
 
-                return responseReturn(res,200, {message: "withdrawl initiated", transfer})
+                return responseReturn(res,200, {message: "withdrawal initiated", transfer})
 
             }
             catch (error){
@@ -121,7 +121,7 @@ class stripeControllers {
             res.status(200).json({ received: true });
         };
 
-        handleWithdrawlWebhook = async (req, res) => {
+        handleWithdrawalWebhook = async (req, res) => {
             
             const sig = req.headers['stripe-signature'];
             //for debugging purposes 
@@ -132,7 +132,7 @@ class stripeControllers {
                 event = stripe.webhooks.constructEvent(
                     req.body,
                     sig,
-                    process.env.WEBHOOK_WITHDRAWL_SECRET
+                    process.env.WEBHOOK_WITHDRAWAL_SECRET
                 );
             } catch (error) {
                 console.error("Webhook verification failed:", error.message);

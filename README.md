@@ -2,6 +2,8 @@
 
 A Node.js backend for a wallet and transaction management system, supporting user and admin authentication, wallet operations, Stripe integration, and admin controls.
 
+## [Postman Documentation](https://documenter.getpostman.com/view/40416552/2sB2qcAzdt) 
+
 ## Features
 
 - **User & Admin Authentication** (JWT, bcrypt)
@@ -26,8 +28,13 @@ A Node.js backend for a wallet and transaction management system, supporting use
 
 - Copy `.env.example` to `.env` and fill in the required values.
 
-4. **Run the server**
+4. **Expose port for Stripe webhooks (if developing locally)**
 
+- Use ngrok or similar tool to expose your local server:
+- Update your Stripe webhook URLs in the dashboard to use the generated ngrok HTTPS URL.
+
+5. **Run the server**
+- npm run server
 
 ## Environment Variables
 
@@ -38,7 +45,7 @@ See `.env.example` for required variables:
 - `SECRET`
 - `STRIPE_PRIVATE_KEY`
 - `WEBHOOK_SECRET`
-- `WEBHOOK_WITHDRAWL_SECRET`
+- `WEBHOOK_WITHDRAWAL_SECRET`
 - `FIXER_API_KEY`
 
 ## API Endpoints
@@ -51,22 +58,22 @@ See `.env.example` for required variables:
 - `GET /api/logout`
 
 ### Wallet
-- `GET /api/get-balance` (auth required)
+- `GET /api/get-balance` 
 
 ### Stripe
-- `GET /api/stripe-check` (auth required)
-- `GET /api/stripe-withdraw` (auth required)
+- `GET /api/stripe-check` 
+- `GET /api/stripe-withdraw` 
 - `POST /api/webhooks`
-- `POST /api/webhooks/withdrawl`
+- `POST /api/webhooks/withdrawal`
 
 ### Transactions
-- `POST /api/transfer-funds` (auth required)
+- `POST /api/transfer-funds` 
 - `GET /api/get-transaction` 
 
 ### Admin
-- `GET /api/admin/get-flagged-transactions` (admin required)
-- `POST /api/admin/enable-user` (admin required)
-- `POST /api/admin/delete-user`(admin required)
+- `GET /api/admin/get-flagged-transactions` 
+- `POST /api/admin/enable-user` 
+- `POST /api/admin/delete-user`
 
 ## Development
 
