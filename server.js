@@ -12,6 +12,7 @@ require('dotenv').config()
 
 const FRONTPORT = process.env.FRONT_PORT
 
+// trying deployment
 app.use(cors({
     origin : [`${FRONTPORT}`], // idk if this is good tho process.env.BASE_URL 
     methods : "GET,HEAD,PUT,PATCH,POST,DELETE",
