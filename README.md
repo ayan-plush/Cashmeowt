@@ -2,7 +2,7 @@
 
 A Node.js backend for a wallet and transaction management system, supporting user and admin authentication, wallet operations, Stripe integration, and admin controls.
 
-## [Postman Documentation](https://documenter.getpostman.com/view/40416552/2sB2qcAzdt) 
+## [Postman Documentation](https://documenter.getpostman.com/view/40416552/2sB2qcAzdt](https://documenter.getpostman.com/view/40416552/2sB2qcD1yr) 
 
 ## Features
 
