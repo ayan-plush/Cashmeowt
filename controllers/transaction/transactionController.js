@@ -112,10 +112,13 @@ class transactionControllers {
 
             await session.commitTransaction();
             session.endSession();
+            
 
             return responseReturn(res, 200, {
                 message: "Transfer successful",
-                transaction: transaction[0]
+                transaction: transaction[0],
+                senderBalance_updated: sender.balance,
+                recipientBalace_updated: recipient.balance
             });
 
         } catch (error) {
